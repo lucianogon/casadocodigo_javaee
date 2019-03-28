@@ -1,4 +1,4 @@
-package br.com.casadocodigo.models;
+package br.com.casadocodigo.loja.models;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

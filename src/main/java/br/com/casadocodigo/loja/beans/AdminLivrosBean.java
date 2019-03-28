@@ -1,4 +1,4 @@
-package br.com.casadocodigo.beans;
+package br.com.casadocodigo.loja.beans;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +10,16 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
 
-import br.com.casadocodigo.dao.AutorDao;
-import br.com.casadocodigo.dao.LivroDao;
-import br.com.casadocodigo.models.Autor;
-import br.com.casadocodigo.models.Livro;
+import br.com.casadocodigo.loja.dao.AutorDao;
+import br.com.casadocodigo.loja.dao.LivroDao;
+import br.com.casadocodigo.loja.models.Autor;
+import br.com.casadocodigo.loja.models.Livro;
 
 @Named
 @RequestScoped
 public class AdminLivrosBean {
 
 	private Livro livro = new Livro();
-
-	private List<Integer> autoresId = new ArrayList<>();
 
 	@Inject
 	private LivroDao dao;
@@ -34,23 +32,12 @@ public class AdminLivrosBean {
 	
 	@Transactional
 	public String salvar() {
-		for (Integer autorId : autoresId) {
-			livro.getAutores().add(new Autor(autorId));
-		}
-
 		dao.salvar(livro);
+
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		context.addMessage(null, new FacesMessage("Livro cadastrado com sucesso!"));
 
 		return "/livros/lista?faces-redirect=true";
-	}
-
-	public List<Integer> getAutoresId() {
-		return autoresId;
-	}
-
-	public void setAutoresId(List<Integer> autoresId) {
-		this.autoresId = autoresId;
 	}
 
 	public Livro getLivro() {
