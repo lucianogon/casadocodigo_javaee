@@ -1,6 +1,6 @@
 package br.com.casadocodigo.loja.beans;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -8,10 +8,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 
 import br.com.casadocodigo.loja.dao.AutorDao;
 import br.com.casadocodigo.loja.dao.LivroDao;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
 
@@ -30,10 +32,14 @@ public class AdminLivrosBean {
 	@Inject
 	private FacesContext context;
 	
+	private Part capaLivro;
+	
 	@Transactional
-	public String salvar() {
+	public String salvar() throws IOException {
 		dao.salvar(livro);
-
+		FileSaver fileSaver = new FileSaver();
+		livro.setCapaPath(fileSaver.write(capaLivro, "livros"));
+		
 		context.getExternalContext().getFlash().setKeepMessages(true);
 		context.addMessage(null, new FacesMessage("Livro cadastrado com sucesso!"));
 
@@ -52,5 +58,13 @@ public class AdminLivrosBean {
 		// return Arrays.asList(new Autor(1, "Paulo Silveira"), new Autor(2, "Sérgio
 		// Lopes"));
 		return autorDAO.getLista();
+	}
+
+	public Part getCapaLivro() {
+		return capaLivro;
+	}
+
+	public void setCapaLivro(Part capaLivro) {
+		this.capaLivro = capaLivro;
 	}
 }

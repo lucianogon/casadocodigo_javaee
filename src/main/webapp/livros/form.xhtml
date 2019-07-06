@@ -6,7 +6,7 @@
 
 <h:messages />
 <h:body>
-	<h:form>
+	<h:form enctype="multipart/form-data">
 		<div>
 			<h:outputLabel value="Título" />
 			<h:inputText value="#{adminLivrosBean.livro.titulo}" required="true"
@@ -46,6 +46,11 @@
 			<h:outputLabel value="Data de Publicação" />
 			<h:inputText value="#{adminLivrosBean.livro.dataPublicacao}" />
 			<h:message for="dataPublicacao" />
+		</div>
+		<div>
+		    <h:outputLabel value="Capa do Livro" />
+		    <h:inputFile value="#{adminLivrosBean.capaLivro}" id="capaLivro" />
+		    <h:message for="capaLivro" />
 		</div>
 		<h:commandButton value="Cadastrar" action="#{adminLivrosBean.salvar}" />
 	</h:form>
