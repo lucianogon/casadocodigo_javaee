@@ -4,8 +4,30 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html">
 
+<h:head>
+    <h:outputStylesheet library="css" name="bootstrap.min.css" /> <!-- JÁ TINHA -->
+    <h:outputStylesheet library="css" name="style-admin.css" />      <!-- ADICIONAMOS AGORA -->
+</h:head>
+
 <h:body>
-	<h:dataTable var="livro" value="#{adminListaLivrosBean.livros}">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Casa do Código</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><h:link value="Lista" outcome="lista" /></li>
+            <li ><h:link value="Cadastro" outcome="form" /></li>
+          </ul>
+        </div>
+      </div>
+	</nav>
+
+    <div class="container">
+    <h1>Lista de Livros</h1>
+	<h:messages />
+	<h:dataTable var="livro" value="#{adminListaLivrosBean.livros}" styleClass="table table-bordered table-striped table-hover">
 		<h:column>
 			<f:facet name="header">Título</f:facet>
             #{livro.titulo}
@@ -30,13 +52,16 @@
 		</h:column>
 		<h:column>
 			<f:facet name="header">Data da Publicação</f:facet>
-            #{livro.dataPublicacao.time}
+            <h:outputLabel value="#{livro.dataPublicacao.time}" >
+            	<f:convertDateTime pattern="MM/YYYY"/>
+            </h:outputLabel>
         </h:column>
 		<h:column>
 			<f:facet name="header">Capa</f:facet>
-			<img src="#{request.contextPath}/file/#{livro.capaPath}" height="5%"
+			<img src="#{request.contextPath}/file/#{livro.capaPath}" height="25%"
 				alt="#{livro.titulo}" />
 		</h:column>
 	</h:dataTable>
+	</div>
 </h:body>
 </html>
